@@ -6,14 +6,15 @@ const node = (value = null, next = null) => {
 }
 
 const hashMap = (() => {
-    let bucket = [];
+    let bucket = bucketGenerator(16);
 
     function bucketGenerator(n) {
+        let bucket = [];
         for (let i = 1; i <= n; i++) {
             bucket.push(node());
         }
 
-        return hashMap;
+        return bucket;
     }
 
     function hash(key) {
@@ -26,24 +27,48 @@ const hashMap = (() => {
         return hashCode;
     }
 
+    function rehash() {
+        let currentCapacity = length();
+        capacity = bucket.length;
+        let loadFactor = 0.75;
+        let threshold = capacity * loadFactor;
+
+        if (currentCapacity > threshold) {
+            let temp = bucket.slice();
+            let newBucket = bucketGenerator(bucket.length);
+            temp = temp.concat(newBucket);
+            return bucket = temp;
+        }
+    }
+
     function set(key, value) {
         let hashCode = hash(key);
         let loc = bucket[hashCode];
         let keyValue = {};
         keyValue[key] = value;
 
+        if (loc.value === null) {
+            loc.value = keyValue;
+            return bucket;
+        };
+        if (loc.value && Object.keys(loc.value)[0] === key) {
+            loc.value[key] = value;
+            return bucket;
+        };
+
         while (loc.next !== null) {
             loc = loc.next;
+            if (loc.value && Object.keys(loc.value)[0] === key) {
+                loc.value[key] = value;
+                return bucket;
+            };
         }
 
-        if (loc.value && loc.key !== null) {
-            let temp = node();
-            temp.value = keyValue;
-            loc.next = temp;
-        } else {
-            loc.value = keyValue;
-        }
+        let temp = node();
+        temp.value = keyValue;
+        loc.next = temp;
 
+        rehash();
         return bucket;
     }
     
@@ -119,8 +144,7 @@ const hashMap = (() => {
     }
 
     function clear() {
-        bucket = [];
-        bucketGenerator(16);
+        bucket = bucketGenerator(16);
 
         return bucket;
     }
@@ -206,23 +230,14 @@ const hashMap = (() => {
     }
 })();
 
-hashMap.bucketGenerator(16);
-console.log(hashMap.set("banana", "john smith"));
-console.log(hashMap.get("banana"));
-console.log(hashMap.get("banan"));
-console.log(hashMap.has("banana"));
-console.log(hashMap.has("banan"));
-console.log(hashMap.set("e", "luffy"));
-console.log(hashMap.set("u", "zoro"));
-console.log(hashMap.get("e"));
-//console.log(hashMap.remove('e'));
-//console.log(hashMap.remove('e'));
-console.log(hashMap.set("banan", "laios"));
-//console.log(hashMap.remove('banan'));
-//console.log(hashMap.remove('banan'));
-console.log(hashMap.length());
-//console.log(hashMap.clear());
-console.log(hashMap.keys());
-console.log(hashMap.values());
-console.log(hashMap.entries());
 
+console.log(hashMap.set("banana", "john smith"));
+console.log(hashMap.set("banana", "jane doe"));
+
+console.log(hashMap.set('e', 'a'));
+console.log(hashMap.set('e', 'b'));
+console.log(hashMap.set('u', 'c'));
+console.log(hashMap.set('e', 'hello'));
+console.log(hashMap.set("banana", "jack"));
+console.log(hashMap.get("e")); 
+console.log(hashMap.entries())
