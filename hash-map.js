@@ -44,7 +44,7 @@ const hashMap = (() => {
             loc.value = keyValue;
         }
 
-        return loc;
+        return bucket;
     }
     
     function get(key) {
@@ -75,7 +75,28 @@ const hashMap = (() => {
             loc = loc.next;
         }
 
-        return true
+        return true;
+    }
+
+    function remove(key) {
+        let hashCode = hash(key);
+        let loc = bucket[hashCode];
+
+        if (loc.value === null) return false;
+        if (Object.keys(loc.value)[0] !== key && loc.next === null) return false;
+        if (Object.keys(loc.value)[0] === key && loc.next === null) {
+            loc.value = null;
+            return true;
+        }
+
+        while (Object.keys(loc.next.value)[0] !== key) {
+            loc = loc.next;
+        }
+
+        let temp = loc.next.next;
+        loc.next = temp;
+
+        return true;
     }
 
     return {
@@ -84,6 +105,7 @@ const hashMap = (() => {
         set,
         get,
         has,
+        remove,
     }
 })();
 
@@ -93,5 +115,11 @@ console.log(hashMap.get("banana"));
 console.log(hashMap.get("banan"));
 console.log(hashMap.has("banana"));
 console.log(hashMap.has("banan"));
+console.log(hashMap.set("e", "jane doe"));
+console.log(hashMap.remove('e'));
+console.log(hashMap.remove('e'));
+console.log(hashMap.set("banan", "jane doe"));
+console.log(hashMap.remove('banan'));
+console.log(hashMap.remove('banan'));
 
 
