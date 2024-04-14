@@ -52,8 +52,8 @@ const hashMap = (() => {
         let loc = bucket[hashCode];
         let value;
 
-        if (loc.value === null) return null
-        if (Object.keys(loc.value)[0] !== key && loc.next === null) return null
+        if (loc.value === null) return null;
+        if (Object.keys(loc.value)[0] !== key && loc.next === null) return null;
 
         while (Object.keys(loc.value)[0] !== key) {
             loc = loc.next;
@@ -64,11 +64,26 @@ const hashMap = (() => {
         return value;
     }
 
+    function has(key) {
+        let hashCode = hash(key);
+        let loc = bucket[hashCode];
+
+        if (loc.value === null) return false;
+        if (Object.keys(loc.value)[0] !== key && loc.next === null) return false;
+
+        while (Object.keys(loc.value)[0] !== key) {
+            loc = loc.next;
+        }
+
+        return true
+    }
+
     return {
         bucketGenerator,
         hash,
         set,
         get,
+        has,
     }
 })();
 
@@ -76,5 +91,7 @@ hashMap.bucketGenerator(16);
 console.log(hashMap.set("banana", "john smith"));
 console.log(hashMap.get("banana"));
 console.log(hashMap.get("banan"));
+console.log(hashMap.has("banana"));
+console.log(hashMap.has("banan"));
 
 
