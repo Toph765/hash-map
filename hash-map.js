@@ -125,6 +125,47 @@ const hashMap = (() => {
         return bucket;
     }
 
+    function keys() {
+        let keyArray = [];
+
+        for (let i = 0; i < bucket.length; i++) {
+            let loc = bucket[i];
+
+            if (loc.value) {
+                keyArray.push(Object.keys(loc.value)[0]);
+            }
+            
+            while (loc.next !== null) {
+                loc = loc.next;
+                keyArray.push(Object.keys(loc.value)[0]);
+            }
+        }
+
+        console.log(bucket)
+        return keyArray;
+    }
+
+    function values() {
+        let valuesArray = [];
+
+        for (let i = 0; i < bucket.length; i++) {
+            let loc = bucket[i];
+
+            if (loc.value) {
+                let value = loc.value[Object.keys(loc.value)[0]];
+                valuesArray.push(value);
+            }
+            
+            while (loc.next !== null) {
+                loc = loc.next;
+                let value = loc.value[Object.keys(loc.value)[0]];
+                valuesArray.push(value);
+            }
+        }
+
+        return valuesArray;
+    }
+
     return {
         bucketGenerator,
         hash,
@@ -134,6 +175,9 @@ const hashMap = (() => {
         remove,
         length,
         clear,
+        keys,
+        values,
+        entries,
     }
 })();
 
@@ -143,13 +187,16 @@ console.log(hashMap.get("banana"));
 console.log(hashMap.get("banan"));
 console.log(hashMap.has("banana"));
 console.log(hashMap.has("banan"));
-console.log(hashMap.set("e", "jane doe"));
+console.log(hashMap.set("e", "luffy"));
+console.log(hashMap.set("u", "zoro"));
+console.log(hashMap.get("e"));
 //console.log(hashMap.remove('e'));
 //console.log(hashMap.remove('e'));
-console.log(hashMap.set("banan", "jane doe"));
+console.log(hashMap.set("banan", "laios"));
 //console.log(hashMap.remove('banan'));
 //console.log(hashMap.remove('banan'));
 console.log(hashMap.length());
-console.log(hashMap.clear());
-
+//console.log(hashMap.clear());
+console.log(hashMap.keys());
+console.log(hashMap.values());
 
