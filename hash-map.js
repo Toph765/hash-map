@@ -1,6 +1,5 @@
-const node = (key = null, value = null, next = null) => {
+const node = (value = null, next = null) => {
     return {
-        key,
         value,
         next
     };
@@ -30,22 +29,22 @@ const hashMap = (() => {
     function set(key, value) {
         let hashCode = hash(key);
         let loc = bucket[hashCode];
+        let keyValue = {};
+        keyValue[key] = value;
 
         while (loc.next !== null) {
             loc = loc.next;
         }
 
-        if (loc.key !== key && loc.key !== null) {
+        if (loc.value && loc.key !== null) {
             let temp = node();
-            temp.key = key;
-            temp.value = value;
+            temp.value = keyValue;
             loc.next = temp;
         } else {
-            loc.key = key;
-            loc.value = value;
+            loc.value = keyValue;
         }
 
-        return bucket;
+        return loc;
     }
     
     function get(key) {
@@ -53,13 +52,14 @@ const hashMap = (() => {
         let loc = bucket[hashCode];
         let value;
 
-        while (loc.next !== null) {
+        if (loc.value === null) return null
+        if (Object.keys(loc.value)[0] !== key && loc.next === null) return null
+
+        while (Object.keys(loc.value)[0] !== key) {
             loc = loc.next;
         }
 
-        if (loc.key !== key && loc.next === null) return null;
-
-        value = loc.value;
+        value = loc.value[key];
 
         return value;
     }
