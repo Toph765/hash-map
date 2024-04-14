@@ -47,14 +47,34 @@ const hashMap = (() => {
 
         return bucket;
     }
+    
+    function get(key) {
+        let hashCode = hash(key);
+        let loc = bucket[hashCode];
+        let value;
+
+        while (loc.next !== null) {
+            loc = loc.next;
+        }
+
+        if (loc.key !== key && loc.next === null) return null;
+
+        value = loc.value;
+
+        return value;
+    }
+
     return {
         bucketGenerator,
         hash,
         set,
+        get,
     }
 })();
 
 hashMap.bucketGenerator(16);
 console.log(hashMap.set("banana", "john smith"));
+console.log(hashMap.get("banana"));
+console.log(hashMap.get("banan"));
 
 
