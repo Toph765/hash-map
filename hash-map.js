@@ -166,6 +166,31 @@ const hashMap = (() => {
         return valuesArray;
     }
 
+    function entries() {
+        let entriesArray = [];
+
+        for (let i = 0; i < bucket.length; i++) {
+            let loc = bucket[i];
+
+            if (loc.value) {
+                let value = loc.value[Object.keys(loc.value)[0]];
+                let key = Object.keys(loc.value)[0];
+                let entries = [key, value];
+                entriesArray.push(entries);
+            }
+            
+            while (loc.next !== null) {
+                loc = loc.next;
+                let value = loc.value[Object.keys(loc.value)[0]];
+                let key = Object.keys(loc.value)[0];
+                let entries = [key, value];
+                entriesArray.push(entries);
+            }
+        }
+
+        return entriesArray;
+    }
+
     return {
         bucketGenerator,
         hash,
@@ -199,4 +224,5 @@ console.log(hashMap.length());
 //console.log(hashMap.clear());
 console.log(hashMap.keys());
 console.log(hashMap.values());
+console.log(hashMap.entries());
 
