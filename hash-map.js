@@ -99,6 +99,25 @@ const hashMap = (() => {
         return true;
     }
 
+    function length() {
+        let count = 0;
+
+        for (let i = 0; i < bucket.length; i++) {
+            let loc = bucket[i];
+
+            if (loc.value) {
+                count += 1;
+            }
+            
+            while (loc.next !== null) {
+                count += 1;
+                loc = loc.next;
+            }
+        }
+
+        return count;
+    }
+
     return {
         bucketGenerator,
         hash,
@@ -106,6 +125,7 @@ const hashMap = (() => {
         get,
         has,
         remove,
+        length,
     }
 })();
 
@@ -116,10 +136,11 @@ console.log(hashMap.get("banan"));
 console.log(hashMap.has("banana"));
 console.log(hashMap.has("banan"));
 console.log(hashMap.set("e", "jane doe"));
-console.log(hashMap.remove('e'));
-console.log(hashMap.remove('e'));
+//console.log(hashMap.remove('e'));
+//console.log(hashMap.remove('e'));
 console.log(hashMap.set("banan", "jane doe"));
-console.log(hashMap.remove('banan'));
-console.log(hashMap.remove('banan'));
+//console.log(hashMap.remove('banan'));
+//console.log(hashMap.remove('banan'));
+console.log(hashMap.length());
 
 
