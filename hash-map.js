@@ -118,6 +118,13 @@ const hashMap = (() => {
         return count;
     }
 
+    function clear() {
+        bucket = [];
+        bucketGenerator(16);
+
+        return bucket;
+    }
+
     return {
         bucketGenerator,
         hash,
@@ -126,6 +133,7 @@ const hashMap = (() => {
         has,
         remove,
         length,
+        clear,
     }
 })();
 
@@ -142,5 +150,6 @@ console.log(hashMap.set("banan", "jane doe"));
 //console.log(hashMap.remove('banan'));
 //console.log(hashMap.remove('banan'));
 console.log(hashMap.length());
+console.log(hashMap.clear());
 
 
