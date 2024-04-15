@@ -28,53 +28,50 @@ const hashMap = (() => {
     }
 
     function rehash() {
-        let currentCapacity = length();
-        capacity = bucket.length;
-        let loadFactor = 0.75;
-        let threshold = capacity * loadFactor;
+        const capacity = bucket.length;
+        const loadFactor = 0.75;
+        const threshold = Math.floor(capacity * loadFactor);
+        const load = length();
+        const pairArray = entries();
 
-        if (currentCapacity > threshold) {
-            let temp = bucket.slice();
-            let newBucket = bucketGenerator(bucket.length);
-            temp = temp.concat(newBucket);
-            return bucket = temp;
+        if (load > threshold) {
+            bucket = bucketGenerator(bucket.length * 2);
+            for (let i = 0; i < pairArray.length; i++) {
+                set(pairArray[i][0], pairArray[i][1]);
+            }
         }
+
+        return bucket;
     }
 
     function set(key, value) {
-        let hashCode = hash(key);
-        let loc = bucket[hashCode];
-        let keyValue = {};
+        const hashCode = hash(key);
+        const loc = bucket[hashCode];
+        const keyValue = {};
         keyValue[key] = value;
 
         if (loc.value === null) {
             loc.value = keyValue;
-            return bucket;
-        };
-        if (loc.value && Object.keys(loc.value)[0] === key) {
-            loc.value[key] = value;
-            return bucket;
-        };
-
-        while (loc.next !== null) {
-            loc = loc.next;
-            if (loc.value && Object.keys(loc.value)[0] === key) {
-                loc.value[key] = value;
-                return bucket;
+        } else {
+            while (Object.keys(loc.value)[0] !== key) {
+                if (Object.keys(loc.value)[0] !== key && loc.next === null) {
+                    const temp = node();
+                    temp.value = keyValue;
+                    loc.next = temp;
+                    
+                } else loc = loc.next;
             };
         }
 
-        let temp = node();
-        temp.value = keyValue;
-        loc.next = temp;
+        loc.value[key] = value;
 
         rehash();
         return bucket;
     }
     
     function get(key) {
-        let hashCode = hash(key);
-        let loc = bucket[hashCode];
+        const hashCode = hash(key);
+        const loc = bucket[hashCode];
         let value;
 
         if (loc.value === null) return null;
@@ -90,8 +87,8 @@ const hashMap = (() => {
     }
 
     function has(key) {
-        let hashCode = hash(key);
-        let loc = bucket[hashCode];
+        const hashCode = hash(key);
+        const loc = bucket[hashCode];
 
         if (loc.value === null) return false;
         if (Object.keys(loc.value)[0] !== key && loc.next === null) return false;
@@ -104,8 +101,8 @@ const hashMap = (() => {
     }
 
     function remove(key) {
-        let hashCode = hash(key);
-        let loc = bucket[hashCode];
+        const hashCode = hash(key);
+        const loc = bucket[hashCode];
 
         if (loc.value === null) return false;
         if (Object.keys(loc.value)[0] !== key && loc.next === null) return false;
@@ -118,7 +115,7 @@ const hashMap = (() => {
             loc = loc.next;
         }
 
-        let temp = loc.next.next;
+        const temp = loc.next.next;
         loc.next = temp;
 
         return true;
@@ -165,7 +162,6 @@ const hashMap = (() => {
             }
         }
 
-        console.log(bucket)
         return keyArray;
     }
 
@@ -231,13 +227,32 @@ const hashMap = (() => {
 })();
 
 
-console.log(hashMap.set("banana", "john smith"));
+console.log(hashMap.set("banana", "john smith")); //1
 console.log(hashMap.set("banana", "jane doe"));
 
-console.log(hashMap.set('e', 'a'));
-console.log(hashMap.set('e', 'b'));
-console.log(hashMap.set('u', 'c'));
-console.log(hashMap.set('e', 'hello'));
-console.log(hashMap.set("banana", "jack"));
-console.log(hashMap.get("e")); 
-console.log(hashMap.entries())
+console.log(hashMap.set("e", 1)); //2
+console.log(hashMap.set("u", 2)); //3
+console.log(hashMap.set("e", 3));
+hashMap.set("banan", 4); //4
+hashMap.set("bana", 5); //5
+hashMap.set("ban", 6); //6
+hashMap.set("ba", 7); //7
+hashMap.set("b", 8); //8
+hashMap.set("orange", 9); //9
+hashMap.set("orang", 10); //10
+hashMap.set("oran", 11); //11
+console.log(hashMap.set("ora", 12)); //12
+console.log(hashMap.length());
+console.log(hashMap.entries());
+console.log(hashMap.set("or", 13)); //13
+console.log(hashMap.length());
+console.log(hashMap.entries());
+hashMap.set("o", 14); //14
+console.log(hashMap.set("apple", 15)); //15
+console.log(hashMap.length());
+console.log(hashMap.entries());
+console.log(hashMap.set("o", 16)); //15
+console.log(hashMap.length());
+console.log(hashMap.entries());
+
+
