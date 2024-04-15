@@ -83,9 +83,24 @@ const hashSet = (() => {
         return value;
     }
 
+    function has(key) {
+        const hashCode = hash(key);
+        let loc = bucket[hashCode];
+
+        if (loc.value === null) return false;
+        if (loc.value !== key && loc.next === null) return false;
+
+        while (loc.value !== key) {
+            loc = loc.next;
+        }
+
+        return true;
+    }
+
     return {
         set,
         get,
+        has,
     }
 })();
 
@@ -96,4 +111,9 @@ console.log(hashSet.set("u"));
 console.log(hashSet.get("banana"));
 console.log(hashSet.get("e"));
 console.log(hashSet.get("u"));
+
+console.log(hashSet.has("banana"));
+console.log(hashSet.has("e"));
+console.log(hashSet.has("u"));
+console.log(hashSet.has("orange"));
 
