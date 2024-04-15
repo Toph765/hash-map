@@ -27,22 +27,22 @@ const hashSet = (() => {
         return hashCode;
     }
 
-    /* function rehash() {
+    function rehash() {
         const capacity = bucket.length;
         const loadFactor = 0.75;
         const threshold = Math.floor(capacity * loadFactor);
         const load = length();
-        const pairArray = entries();
+        const keysArray = keys();
 
         if (load > threshold) {
             bucket = bucketGenerator(bucket.length * 2);
-            for (let i = 0; i < pairArray.length; i++) {
-                set(pairArray[i][0], pairArray[i][1]);
+            for (let i = 0; i < keysArray.length; i++) {
+                set(keysArray[i]);
             }
         }
 
         return bucket;
-    } */
+    }
 
     function set(key) {
         const hashCode = hash(key);
@@ -62,7 +62,7 @@ const hashSet = (() => {
         }
         loc.value = key;
 
-        //rehash();
+        rehash();
         return bucket;
     }
 
@@ -192,6 +192,28 @@ console.log(hashSet.length());
 
 //console.log(hashSet.clear());
 
+console.log(hashSet.keys());
+
+hashSet.set("banan"); 
+hashSet.set("bana"); 
+hashSet.set("ban"); 
+hashSet.set("ba"); 
+hashSet.set("b"); 
+hashSet.set("orange"); 
+hashSet.set("orang"); 
+hashSet.set("oran"); 
+console.log(hashSet.set("ora"));
+console.log(hashSet.length());
+console.log(hashSet.keys());
+console.log(hashSet.set("or")); 
+console.log(hashSet.length());
+console.log(hashSet.keys());
+hashSet.set("o");
+console.log(hashSet.set("apple"));
+console.log(hashSet.length());
+console.log(hashSet.keys());
+console.log(hashSet.set("o"));
+console.log(hashSet.length());
 console.log(hashSet.keys());
 
 
