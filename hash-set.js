@@ -117,11 +117,31 @@ const hashSet = (() => {
         return true;
     }
 
+    function length() {
+        let count = 0;
+
+        for (let i = 0; i < bucket.length; i++) {
+            let loc = bucket[i];
+
+            if (loc.value) {
+                count += 1;
+            }
+            
+            while (loc.next !== null) {
+                count += 1;
+                loc = loc.next;
+            }
+        }
+
+        return count;
+    }
+
     return {
         set,
         get,
         has,
         remove,
+        length,
     }
 })();
 
@@ -140,7 +160,7 @@ console.log(hashSet.has("orange"));
 
 console.log(hashSet.remove("u"));
 console.log(hashSet.remove("u"));
-console.log(hashSet.remove("banana"));
-console.log(hashSet.remove("banana"));
+
+console.log(hashSet.length());
 
 
