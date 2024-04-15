@@ -27,7 +27,7 @@ const hashSet = (() => {
         return hashCode;
     }
 
-    function rehash() {
+    /* function rehash() {
         const capacity = bucket.length;
         const loadFactor = 0.75;
         const threshold = Math.floor(capacity * loadFactor);
@@ -42,5 +42,37 @@ const hashSet = (() => {
         }
 
         return bucket;
+    } */
+
+    function set(key) {
+        const hashCode = hash(key);
+        let loc = bucket[hashCode];
+
+        if (loc.value === null) {
+            loc.value = key;
+        } else {
+            while (loc.value !== key) {
+                if (loc.value !== key && loc.next === null) {
+                    const temp = node();
+                    temp.value = key;
+                    loc.next = temp;
+                    
+                } else loc = loc.next;
+            };
+        }
+        loc.value = key;
+
+        //rehash();
+        return bucket;
+    }
+
+    
+
+    return {
+        set,
     }
 })();
+
+console.log(hashSet.set("banana"));
+console.log(hashSet.set("e"));
+console.log(hashSet.set("u"));
