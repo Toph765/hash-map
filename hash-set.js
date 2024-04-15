@@ -97,10 +97,31 @@ const hashSet = (() => {
         return true;
     }
 
+    function remove(key) {
+        const hashCode = hash(key);
+        let loc = bucket[hashCode];
+
+        if (loc.value === null) return false;
+        if (loc.value === key) {
+            loc.value = null;
+            return true;
+        } else {
+            while (loc.next.value !== key) {
+                if (loc.next.value !== key && loc.next.next === null) return false;
+                loc = loc.next;
+        }}
+
+        const temp = loc.next.next;
+        loc.next = temp;
+
+        return true;
+    }
+
     return {
         set,
         get,
         has,
+        remove,
     }
 })();
 
@@ -116,4 +137,10 @@ console.log(hashSet.has("banana"));
 console.log(hashSet.has("e"));
 console.log(hashSet.has("u"));
 console.log(hashSet.has("orange"));
+
+console.log(hashSet.remove("u"));
+console.log(hashSet.remove("u"));
+console.log(hashSet.remove("banana"));
+console.log(hashSet.remove("banana"));
+
 
