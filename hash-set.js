@@ -172,28 +172,41 @@ const hashSet = (() => {
     }
 })();
 
+// CODE TESTING//
+
+// set(key) //
 console.log(hashSet.set("banana"));
 console.log(hashSet.set("e"));
 console.log(hashSet.set("u"));
 
+// get(key) //
 console.log(hashSet.get("banana"));
 console.log(hashSet.get("e"));
 console.log(hashSet.get("u"));
 
+
+// has(key) //
 console.log(hashSet.has("banana"));
 console.log(hashSet.has("e"));
 console.log(hashSet.has("u"));
 console.log(hashSet.has("orange"));
 
+
+// remove(key) //
 console.log(hashSet.remove("u"));
 console.log(hashSet.remove("u"));
 
+// length() //
 console.log(hashSet.length());
 
+
+// clear() //
 //console.log(hashSet.clear());
 
+// keys() //
 console.log(hashSet.keys());
 
+// TESTING BUCKET SIZE GROWTH //
 hashSet.set("banan"); 
 hashSet.set("bana"); 
 hashSet.set("ban"); 
