@@ -136,12 +136,19 @@ const hashSet = (() => {
         return count;
     }
 
+    function clear() {
+        bucket = bucketGenerator(16);
+
+        return bucket;
+    }
+
     return {
         set,
         get,
         has,
         remove,
         length,
+        clear,
     }
 })();
 
@@ -162,5 +169,9 @@ console.log(hashSet.remove("u"));
 console.log(hashSet.remove("u"));
 
 console.log(hashSet.length());
+
+//console.log(hashSet.clear());
+
+
 
 
