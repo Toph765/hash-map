@@ -142,6 +142,25 @@ const hashSet = (() => {
         return bucket;
     }
 
+    function keys() {
+        let keyArray = [];
+
+        for (let i = 0; i < bucket.length; i++) {
+            let loc = bucket[i];
+
+            if (loc.value) {
+                keyArray.push(loc.value);
+            }
+            
+            while (loc.next !== null) {
+                loc = loc.next;
+                keyArray.push(loc.value);
+            }
+        }
+
+        return keyArray;
+    }
+
     return {
         set,
         get,
@@ -149,6 +168,7 @@ const hashSet = (() => {
         remove,
         length,
         clear,
+        keys,
     }
 })();
 
@@ -172,6 +192,7 @@ console.log(hashSet.length());
 
 //console.log(hashSet.clear());
 
+console.log(hashSet.keys());
 
 
 
